@@ -78,12 +78,12 @@ export function CareerChat({ onComplete, onHome }: CareerChatProps) {
         lastContent.includes("Recommended Career") ||
         lastContent.includes("执行方案");
 
-      // Only mark complete when user has answered 10 questions AND final profile is generated
-      if (assistantMessages.length >= 11 && hasProfileContent) {
+      // Only mark complete when user has answered 10 questions AND final profile is generated AND streaming is done
+      if (assistantMessages.length >= 11 && hasProfileContent && status === "ready") {
         setIsComplete(true);
       }
     }
-  }, [messages, questionCount, onComplete]);
+  }, [messages, questionCount, onComplete, status]);
 
   // Start conversation only once when component mounts
   useEffect(() => {

@@ -44,12 +44,30 @@ Start
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const messages: UIMessage[] = body.messages;
+    const rawMessages = body.messages;
+
+    // Sanitize messages: ensure every message has proper parts with text content
+    const messages: UIMessage[] = rawMessages
+      .filter((m: UIMessage) => m.role && m.parts && m.parts.length > 0)
+      .map((m: UIMessage) => ({
+        ...m,
+        parts: m.parts.filter(
+          (p) => p.type === "text" && (p as { type: "text"; text: string }).text?.trim()
+        ),
+      }))
+      .filter((m: UIMessage) => m.parts.length > 0);
+
+    if (messages.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "No valid messages provided." }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
     const result = streamText({
       model: "anthropic/claude-sonnet-4",
       system: SYSTEM_PROMPT,
-      messages: convertToModelMessages(messages),
+      messages: await convertToModelMessages(messages),
       maxOutputTokens: 2000,
     });
 
