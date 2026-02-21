@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     }
 
     const result = streamText({
-      model: "alibaba/qwen3.5-plus",
+      model: "google/gemini-2.5-flash",
       system: SYSTEM_PROMPT,
       messages: await convertToModelMessages(messages),
       maxOutputTokens: 2000,
