@@ -312,8 +312,16 @@ export function CareerResults({ messages, onHome }: CareerResultsProps) {
             </div>
           </div>
         </div>
-        {/* V0 Attribution */}
-        <div className="mt-8 pb-6 text-center">
+        {/* Buy Me a Coffee & V0 Attribution */}
+        <div className="mt-8 flex flex-col items-center gap-4 pb-6">
+          <a href="https://www.buymeacoffee.com/changshan" target="_blank" rel="noopener noreferrer">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+              alt="Buy Me A Coffee"
+              style={{ height: "60px", width: "217px" }}
+            />
+          </a>
           <a
             href="https://v0.app/ref/1L7MKB"
             target="_blank"
