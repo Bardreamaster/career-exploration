@@ -19,9 +19,10 @@ export const maxDuration = 60;
  * Other providers require you to set an API key in environment variables.
  */
 const MODEL_LIST: string[] = [
+  "deepseek/deepseek-v3",
   "google/gemini-2.5-flash",
-  "anthropic/claude-sonnet-4",
-  "openai/gpt-4o-mini",
+  "deepseek/deepseek-v3.2",
+  "minimax/minimax-m2.1",
 ];
 
 // Hidden system prompt for career exploration
