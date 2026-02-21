@@ -44,12 +44,12 @@ export default function HomePage() {
   >([]);
 
   // Handle debug mode - jump directly to results page
-  useEffect(() => {
-    if (isDebug && !showResults) {
-      setCompletedMessages(DEBUG_MESSAGES);
-      setShowResults(true);
-    }
-  }, [isDebug, showResults]);
+  // useEffect(() => {
+  //   if (isDebug && !showResults) {
+  //     setCompletedMessages(DEBUG_MESSAGES);
+  //     setShowResults(true);
+  //   }
+  // }, [isDebug, showResults]);
 
   const handleComplete = useCallback(
     (messages: Array<{ role: string; content: string }>) => {
