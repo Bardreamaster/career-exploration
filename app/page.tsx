@@ -204,7 +204,8 @@ export default function HomePage() {
                 {/* TODO: 在这里添加底部说明文案 */}
                 您的回答只会用于生成此报告，不会被记录下来. 因此中途退出会丢失原有进度.
               </p>
-              
+            </div>
+
             {/* V0 Attribution */}
             <div className="mt-6 text-center">
               <a
