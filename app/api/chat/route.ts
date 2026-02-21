@@ -2,6 +2,28 @@ import { convertToModelMessages, streamText, UIMessage } from "ai";
 
 export const maxDuration = 60;
 
+/**
+ * Model Fallback Configuration
+ * ============================
+ * Add your preferred models here in priority order.
+ * If the first model fails (e.g., token quota exceeded, rate limit, network error),
+ * the system will automatically try the next model in the list.
+ *
+ * Supported providers (zero-config via Vercel AI Gateway):
+ *   - OpenAI:      "openai/gpt-4o", "openai/gpt-4o-mini", "openai/gpt-5-mini"
+ *   - Anthropic:   "anthropic/claude-sonnet-4", "anthropic/claude-haiku-3.5"
+ *   - Google:      "google/gemini-2.5-flash", "google/gemini-2.5-pro"
+ *   - xAI:         "xai/grok-3-mini-fast"
+ *   - Fireworks:   "fireworks/llama-v3p1-70b-instruct"
+ *
+ * Other providers require you to set an API key in environment variables.
+ */
+const MODEL_LIST: string[] = [
+  "google/gemini-2.5-flash",
+  "anthropic/claude-sonnet-4",
+  "openai/gpt-4o-mini",
+];
+
 // Hidden system prompt for career exploration
 const SYSTEM_PROMPT = `Role
 你是一名顶尖的"职业探索规划专家"。你曾是成功推荐过 500 位高管的猎头，现在专注于通过"认知与情感契合度"帮助用户发现真正的热情。
@@ -64,14 +86,33 @@ export async function POST(req: Request) {
       );
     }
 
-    const result = streamText({
-      model: "google/gemini-2.5-flash",
-      system: SYSTEM_PROMPT,
-      messages: await convertToModelMessages(messages),
-      maxOutputTokens: 2000,
-    });
+    const modelMessages = await convertToModelMessages(messages);
 
-    return result.toUIMessageStreamResponse();
+    // Try each model in order; if one fails, fall back to the next
+    let lastError: unknown = null;
+    for (const modelId of MODEL_LIST) {
+      try {
+        const result = streamText({
+          model: modelId,
+          system: SYSTEM_PROMPT,
+          messages: modelMessages,
+          maxOutputTokens: 2000,
+        });
+
+        return result.toUIMessageStreamResponse();
+      } catch (modelError) {
+        console.error(`[v0] Model "${modelId}" failed:`, modelError);
+        lastError = modelError;
+        // Continue to next model
+      }
+    }
+
+    // All models failed
+    console.error("[v0] All models failed. Last error:", lastError);
+    return new Response(
+      JSON.stringify({ error: "All models are currently unavailable. Please try again later." }),
+      { status: 503, headers: { "Content-Type": "application/json" } }
+    );
   } catch (error) {
     console.error("[v0] Chat API error:", error);
     return new Response(
