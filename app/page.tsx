@@ -205,7 +205,9 @@ export default function HomePage() {
                 您的回答只会用于生成此报告，不会被记录下来. 因此中途退出会丢失原有进度.
               </p>
             </div>
-
+            <div className="mt-6 text-center">
+              <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="changshan" data-color="#FFDD00" data-emoji="🍕"  data-font="Cookie" data-text="Buy me a pizza" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+            </div>
             {/* V0 Attribution */}
             <div className="mt-6 text-center">
               <a
