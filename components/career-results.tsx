@@ -81,7 +81,7 @@ export function CareerResults({ messages, onHome }: CareerResultsProps) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    setTimeout(() => setExporting(null), 1000);
+    setTimeout(() => setExporting(null), 5000);
   };
 
   const downloadChatHistory = () => {
@@ -112,7 +112,7 @@ export function CareerResults({ messages, onHome }: CareerResultsProps) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    setTimeout(() => setExporting(null), 1000);
+    setTimeout(() => setExporting(null), 5000);
   };
 
   const downloadAsImage = async () => {
@@ -175,7 +175,7 @@ export function CareerResults({ messages, onHome }: CareerResultsProps) {
       `);
       iframeDoc.close();
 
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const poster = iframeDoc.getElementById("poster");
       if (!poster) throw new Error("Could not find poster element");
@@ -197,7 +197,7 @@ export function CareerResults({ messages, onHome }: CareerResultsProps) {
       console.error("Error generating image:", error);
     }
 
-    setTimeout(() => setExporting(null), 1000);
+    setTimeout(() => setExporting(null), 5000);
   };
 
   return (

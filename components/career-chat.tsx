@@ -106,7 +106,7 @@ export function CareerChat({ onComplete, onHome }: CareerChatProps) {
     setIsComplete(false);
     setTimeout(() => {
       sendMessage({ text: "开始职业探索" });
-    }, 100);
+    }, 1000);
   };
 
   const handleViewResults = () => {
